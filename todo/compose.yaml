@@ -39,18 +39,19 @@ services:
       - todo
     restart: always
 
-
   frontend:
-    image: node:14-alpine
-    working_dir: /app
+    image: node:latest
     volumes:
       - ./frontend:/app
-    command: npm install && npm run start
+    working_dir: /app
+    command: npm run start
     depends_on:
       - backend
     ports:
       - "3000:3000"
-    restart: always
+    tty:
+      true
+    # restart: always
     networks:
       - todo
 

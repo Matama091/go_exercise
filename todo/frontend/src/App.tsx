@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
+import TaskItem from './components/TaskItem';
+
+interface Task {
+  id: number;
+  title: string;
+  description: string;
+  due_date: string;
+  status: number;
+  created_at: string;
+  updated_at: string;
+}
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const fetchTasks = async () => {
-    const response = await fetch('http://localhost:8080/tasks');
+    // ここにタスクを取得するためのロジックを追加します
+    // 例: APIからタスクを取得してsetTasksを呼び出す
+    const response = await fetch('/api/tasks');
     const data = await response.json();
     setTasks(data);
   };
@@ -15,12 +30,24 @@ const App: React.FC = () => {
     fetchTasks();
   }, []);
 
+  const handleAddTask = (task: { title: string; description: string; due_date: string; status: number }) => {
+    console.log('Task added:', task);
+    // ここにタスクを追加するためのロジックを追加できます
+  };
+
+  const handleSelectTask = (task: Task) => {
+    setSelectedTask(task);
+  };
+
   return (
-    <div>
-      <h1>Todo App</h1>
-      <TaskForm onTaskAdded={fetchTasks} />
-      <TaskList tasks={tasks} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TaskList tasks={tasks} fetchTasks={fetchTasks} onSelectTask={handleSelectTask} />} />
+        <Route path="/tasks" element={<TaskList tasks={tasks} fetchTasks={fetchTasks} onSelectTask={handleSelectTask} />} />
+        <Route path="/task-form" element={<TaskForm onAddTask={handleAddTask} />} />
+        <Route path="/task-item" element={selectedTask && <TaskItem task={selectedTask} fetchTasks={fetchTasks} />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
