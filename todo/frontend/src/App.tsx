@@ -41,6 +41,9 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+      <p>
+        Edit <code>src/App.tsx</code> and save to reload.
+      </p>
       <Routes>
         <Route path="/" element={<TaskList tasks={tasks} fetchTasks={fetchTasks} onSelectTask={handleSelectTask} />} />
         <Route path="/tasks" element={<TaskList tasks={tasks} fetchTasks={fetchTasks} onSelectTask={handleSelectTask} />} />

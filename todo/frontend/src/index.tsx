@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { HelmetProvider } from 'react-helmet-async';
 
 
 const root = ReactDOM.createRoot(
@@ -9,10 +8,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <>
-    <HelmetProvider>
-        <div className='container'>
-            <App />
-        </div>
-    </HelmetProvider>
+    <h1>Task Manager</h1>
+    <div className='container'>
+        <App />
+    </div>
   </>
 );
